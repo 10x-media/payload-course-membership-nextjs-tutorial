@@ -1,41 +1,46 @@
-'use server';
+'use server'
 
-import { getPayload } from 'payload';
-import configPromise from '@payload-config';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import { Course } from '@/payload-types';
-import Link from 'next/link';
-import { HiVideoCamera, HiPencilAlt, HiPlay, HiArrowLeft } from 'react-icons/hi';
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import { Course } from '@/payload-types'
+import Link from 'next/link'
+import { HiVideoCamera, HiPencilAlt, HiPlay, HiArrowLeft } from 'react-icons/hi'
+import { getUser } from '../../../_actions/getUser'
 
 interface CoursePageProps {
-  params: { courseId: string };
+  params: { courseId: string }
 }
 
 const CoursePage = async ({ params }: CoursePageProps) => {
-  const payload = await getPayload({ config: configPromise });
+  const payload = await getPayload({ config: configPromise })
 
-  const { courseId } = await params;
+  const { courseId } = await params
 
-  let course: Course | null = null;
+  let course: Course | null = null
+
+  // get the user
+  const user = await getUser()
 
   try {
     const res = await payload.findByID({
       collection: 'courses',
       id: courseId,
-    });
+      overrideAccess: false,
+      user: user,
+    })
 
-    course = res;
+    course = res
   } catch (err) {
-    console.error('Failed to fetch course:', err);
-    return notFound();
+    console.error('Failed to fetch course:', err)
+    return notFound()
   }
 
-  if (!course) return notFound();
+  if (!course) return notFound()
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 flex flex-col gap-6">
-      {/* Back Button */}
       <div>
         <Link
           href="/dashboard"
@@ -46,7 +51,6 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         </Link>
       </div>
 
-      {/* Course Image */}
       <div className="relative w-full aspect-video rounded overflow-hidden border border-gray-700">
         <Image src={course.image.url} alt={course.title} fill className="object-cover" />
       </div>
@@ -54,7 +58,6 @@ const CoursePage = async ({ params }: CoursePageProps) => {
       <h1 className="text-3xl font-bold">{course.title}</h1>
       <p className="text-gray-300">{course.description}</p>
 
-      {/* Curriculum */}
       <div>
         <h2 className="text-xl font-semibold mt-6 mb-2">Curriculum</h2>
         <div className="flex flex-col gap-4">
@@ -68,7 +71,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                   </div>
                   <div className="text-sm text-gray-400">Duration: {block.duration} min</div>
                 </div>
-              );
+              )
             }
 
             if (block.blockType === 'quiz') {
@@ -82,15 +85,14 @@ const CoursePage = async ({ params }: CoursePageProps) => {
                     Questions: {block.questions?.length || 0}
                   </div>
                 </div>
-              );
+              )
             }
 
-            return null;
+            return null
           })}
         </div>
       </div>
 
-      {/* Start Button */}
       <div className="mt-6">
         <Link
           href={`/dashboard/course/${course.id}/start`}
@@ -101,7 +103,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CoursePage;
+export default CoursePage
