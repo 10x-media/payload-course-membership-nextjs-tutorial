@@ -4,7 +4,11 @@ export const Participation: CollectionConfig = {
   slug: "participation",
   access: {
     read: ({ req: { user } }) => {
+      if(user?.collection === "users"){ 
+        return true;
+      } else {
       return { customer: { equals: user?.id } };
+      }
     },
     create: ({ req: { user }, data }) => {
       if(user?.collection === "users"){ 
@@ -16,10 +20,18 @@ export const Participation: CollectionConfig = {
       }
     },
     update: ({ req: { user } }) => {
+      if(user?.collection === "users"){ 
+        return true;
+      } else {
       return { customer: { equals: user?.id } };
+      }
     },
     delete: ({ req: { user } }) => {
+      if(user?.collection === "users"){ 
+        return true;
+      } else {
       return { customer: { equals: user?.id } };
+      }
     }
   },
   admin: {

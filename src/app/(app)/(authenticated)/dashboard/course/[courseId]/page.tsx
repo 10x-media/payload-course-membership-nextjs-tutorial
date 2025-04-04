@@ -4,10 +4,12 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { Course } from '@/payload-types'
+import { Course, Participation } from '@/payload-types'
 import Link from 'next/link'
 import { HiVideoCamera, HiPencilAlt, HiPlay, HiArrowLeft } from 'react-icons/hi'
 import { getUser } from '../../../_actions/getUser'
+import StartCourseButton from './_components/StartCourseButton'
+import ParticipationButton from '../../_components/ParticipationButton'
 
 interface CoursePageProps {
   params: { courseId: string }
@@ -24,7 +26,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
   const user = await getUser()
 
   try {
-    const res = await payload.findByID({
+    const res: Course = await payload.findByID({
       collection: 'courses',
       id: courseId,
       overrideAccess: false,
@@ -36,6 +38,27 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     console.error('Failed to fetch course:', err)
     return notFound()
   }
+
+  console.log('check if participation exists', courseId, user?.id)
+
+  // check if participation exists
+  const participationResult = await payload.find({
+    collection: 'participation',
+    where: {
+      course: {
+        equals: courseId,
+      },
+      customer: {
+        equals: user?.id,
+      },
+    },
+    overrideAccess: false,
+    user: user,
+  })
+
+  console.log('participationResult', participationResult)
+
+  const participation: Participation | undefined = participationResult.docs[0]
 
   if (!course) return notFound()
 
@@ -51,7 +74,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         </Link>
       </div>
 
-      <div className="relative w-full aspect-video rounded overflow-hidden border border-gray-700">
+      <div className="relative w-full aspect-video overflow-hidden border border-gray-700">
         <Image src={course.image.url} alt={course.title} fill className="object-cover" />
       </div>
 
@@ -93,15 +116,11 @@ const CoursePage = async ({ params }: CoursePageProps) => {
         </div>
       </div>
 
-      <div className="mt-6">
-        <Link
-          href={`/dashboard/course/${course.id}/start`}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white font-semibold rounded hover:bg-teal-600 transition"
-        >
-          <HiPlay className="text-xl" />
-          Start Course
-        </Link>
-      </div>
+      {participation ? (
+        <div className="w-72"><ParticipationButton participation={participation} /></div>
+      ) : (
+        <StartCourseButton courseId={course.id} />
+      )}
     </div>
   )
 }
