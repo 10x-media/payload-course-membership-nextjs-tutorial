@@ -20,7 +20,7 @@ export const VideoBlock: Block = {
       required: true,
     },
     {
-      name: "playerURL",
+      name: "playerUrl",
       label: "Bunny Player URL",
       type: "text",
       required: true,

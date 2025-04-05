@@ -168,7 +168,7 @@ export interface Course {
     | {
         title: string;
         duration: number;
-        playerURL: string;
+        playerUrl: string;
         id?: string | null;
         blockName?: string | null;
         blockType: 'video';
@@ -353,7 +353,7 @@ export interface CoursesSelect<T extends boolean = true> {
           | {
               title?: T;
               duration?: T;
-              playerURL?: T;
+              playerUrl?: T;
               id?: T;
               blockName?: T;
             };
