@@ -19,7 +19,8 @@ export default async function ParticipationButton({
   }
 
   const courseLength = course.curriculum.length
-  const progress = participation.progress ?? 0
+  let progress = participation.progress  ?? 0
+  progress = progress + 1; // Increment progress by 1 for the sake of the button display
 
   const progressPercent = Math.min((progress / courseLength) * 100, 100)
 

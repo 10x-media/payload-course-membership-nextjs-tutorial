@@ -26,6 +26,7 @@ export async function markProgress(participation: Participation){
       progress: newProgress,
     },
     user: await getUser(),
+    overrideAccess: false,
   })
 
   return updatedParticipation;

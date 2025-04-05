@@ -22,7 +22,9 @@
     "@payloadcms/storage-s3": "^3.2.2",
     "axios": "^1.7.8",
     "cross-env": "^7.0.3",
+    "ejs": "^3.1.10",
     "graphql": "^16.8.1",
+    "moment-timezone": "^0.5.48",
     "next": "15.0.0",
     "payload": "latest",
     "react": "19.0.0-rc-65a56d0e-20241020",
@@ -31,6 +33,7 @@
     "sharp": "0.32.6"
   },
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
     "@types/node": "^22.5.4",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",

@@ -2,7 +2,7 @@
 
 import { Course } from '@/payload-types';
 import { useEffect, useRef } from 'react';
-import { HiVideoCamera, HiPencilAlt } from 'react-icons/hi';
+import { HiVideoCamera, HiPencilAlt, HiFlag } from 'react-icons/hi';
 
 export default function Curriculum({
   course,
@@ -25,12 +25,11 @@ export default function Curriculum({
         const isCurrent = idx === currentProgress;
 
         const baseClass =
-          'p-4 border rounded bg-gray-900 transition-all duration-300 ease-in-out';
-        const borderClass = isCurrent ? 'border-white' : 'border-gray-700';
-        const highlightClass = isCurrent ? 'ring-2 ring-teal-500' : '';
+          'p-4 border bg-gray-900 transition-all duration-300 ease-in-out';
+        const borderClass = isCurrent ? 'border-2 border-teal-500' : 'border-gray-700';
 
         const commonProps = {
-          className: `${baseClass} ${borderClass} ${highlightClass}`,
+          className: `${baseClass} ${borderClass}`,
           ref: isCurrent ? currentRef : undefined,
         };
 
@@ -55,6 +54,17 @@ export default function Curriculum({
               </div>
               <div className="text-sm text-gray-400">
                 Questions: {block.questions?.length || 0}
+              </div>
+            </div>
+          );
+        }
+
+        if (block.blockType === "finish") {
+          return (
+            <div key={idx} {...commonProps}>
+              <div className="text-green-400 font-medium flex items-center gap-2">
+                <HiFlag className="text-xl" />
+                Certificate
               </div>
             </div>
           );

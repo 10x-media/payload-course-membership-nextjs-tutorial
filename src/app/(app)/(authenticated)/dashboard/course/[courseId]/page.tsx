@@ -56,8 +56,6 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     user: user,
   })
 
-  console.log('participationResult', participationResult)
-
   const participation: Participation | undefined = participationResult.docs[0]
 
   if (!course) return notFound()
@@ -87,7 +85,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
           {course.curriculum.map((block, idx) => {
             if (block.blockType === 'video') {
               return (
-                <div key={idx} className="p-4 border border-gray-700 rounded bg-gray-900">
+                <div key={idx} className="p-4 border border-gray-700 bg-gray-900">
                   <div className="text-teal-400 font-medium flex items-center gap-2">
                     <HiVideoCamera className="text-xl" />
                     Video: {block.title}
@@ -99,7 +97,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
 
             if (block.blockType === 'quiz') {
               return (
-                <div key={idx} className="p-4 border border-gray-700 rounded bg-gray-900">
+                <div key={idx} className="p-4 border border-gray-700 bg-gray-900">
                   <div className="text-yellow-400 font-medium flex items-center gap-2">
                     <HiPencilAlt className="text-xl" />
                     Quiz: {block.title}
