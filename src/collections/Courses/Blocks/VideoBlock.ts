@@ -1,3 +1,4 @@
+import { paidUser } from "@/utils/auth/paidUser";
 import { Block } from "payload";
 
 export const VideoBlock: Block = {
@@ -24,6 +25,11 @@ export const VideoBlock: Block = {
       label: "Bunny Player URL",
       type: "text",
       required: true,
+      access: {
+        read: async ({ req: { user, payload }, id }) => {
+          return await paidUser({ user, payload, id: id as string });
+        },
+      },
     },
   ],
 }

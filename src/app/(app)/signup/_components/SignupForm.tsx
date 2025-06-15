@@ -30,8 +30,6 @@ export default function SignupForm(): ReactElement {
     const result: SignupResponse = await signup({ email, password });
     setIsPending(false);
 
-    console.log(result);
-
     if (result.success) {
       // Redirect manually after successful login
       router.push("/dashboard");

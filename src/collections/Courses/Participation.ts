@@ -56,6 +56,16 @@ export const Participation: CollectionConfig = {
       name: "progress",
       label: "Progress",
       type: "number",
+    },
+    {
+      name: "paymentIntent",
+      label: "Payment Intent Id",
+      type: "text"
+    },
+    {
+      name: "paid",
+      label: "paid",
+      type: "checkbox"
     }
   ]
 }

@@ -6,7 +6,7 @@ import { FinishBlock } from './Blocks/FinishBlock';
 export const Courses: CollectionConfig = {
   slug: "courses",
   access: {
-    read: ({ req: { user } }) => {
+    read: async ({ req: { user } }) => {
       return Boolean(user);
     },
     create: ({ req: { user } }) => {
@@ -33,6 +33,12 @@ export const Courses: CollectionConfig = {
       name: "description",
       label: "Description",
       type: "textarea",
+      required: true,
+    },
+    {
+      name: "price",
+      label: "Price",
+      type: "number",
       required: true,
     },
     {

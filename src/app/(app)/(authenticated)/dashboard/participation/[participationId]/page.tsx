@@ -27,7 +27,6 @@ export default async function ParticipationPage({ params }: { params: { particip
 
     participation = res
 
-    console.log('participation', participation)
   } catch (err) {
     console.error('Failed to fetch course:', err)
     return notFound()

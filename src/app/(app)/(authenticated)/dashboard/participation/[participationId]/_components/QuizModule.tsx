@@ -44,7 +44,6 @@ export default function QuizModule({
       let val = module.questions[i].answers[n].true
         ? module.questions[i].answers[n].true
         : false
-      console.log('answer', i, val, userAnswers[i][n])
       if (val !== userAnswers[i][n]) {
         correct = false
       }
@@ -131,7 +130,6 @@ export default function QuizModule({
               disabled={allAnswersCorrect}
               className={`${allAnswersCorrect ? 'btn-primary-outline' : 'btn-primary'}`}
               onClick={() => {
-                console.log('userAnswers', userAnswers)
                 if (checkAllAnswers()) {
                   setUserAnswers([])
                   setAllAnswersCorrect(true)

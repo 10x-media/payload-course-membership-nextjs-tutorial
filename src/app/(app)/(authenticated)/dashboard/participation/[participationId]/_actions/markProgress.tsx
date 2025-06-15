@@ -8,8 +8,6 @@ import configPromise from '@payload-config'
 export async function markProgress(participation: Participation){
   const payload = await getPayload({ config: configPromise })
 
-  console.log('markProgress', participation)
-
   // check if participation exists and it has progress
   if (!participation || typeof participation.progress !== 'number') {
     console.error('Participation not found or progress is not set')

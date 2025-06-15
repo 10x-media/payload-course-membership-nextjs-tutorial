@@ -1,3 +1,4 @@
+import { paidUser } from "@/utils/auth/paidUser";
 import { Block } from "payload";
 
 export const QuizBlock: Block = {
@@ -18,6 +19,11 @@ export const QuizBlock: Block = {
       label: "Questions",
       type: "array",
       required: true,
+      access: {
+        read: async ({ req: { user, payload }, id }) => {
+          return await paidUser({ user, payload, id: id as string });
+        },
+      },
       fields: [
         {
           name: "question",

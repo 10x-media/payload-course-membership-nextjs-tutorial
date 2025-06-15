@@ -4,11 +4,10 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import { Course, Participation } from '@/payload-types'
+import { Course, Media, Participation } from '@/payload-types'
 import Link from 'next/link'
 import { HiVideoCamera, HiPencilAlt, HiArrowLeft } from 'react-icons/hi'
 import { getUser } from '../../../_actions/getUser'
-import StartCourseButton from './_components/StartCourseButton'
 import ParticipationButton from '../../_components/ParticipationButton'
 
 interface CoursePageProps {
@@ -38,8 +37,6 @@ const CoursePage = async ({ params }: CoursePageProps) => {
     console.error('Failed to fetch course:', err)
     return notFound()
   }
-
-  console.log('check if participation exists', courseId, user?.id)
 
   // check if participation exists
   const participationResult = await payload.find({
@@ -73,7 +70,7 @@ const CoursePage = async ({ params }: CoursePageProps) => {
       </div>
 
       <div className="relative w-full aspect-video overflow-hidden border border-gray-700">
-        <Image src={course.image.url} alt={course.title} fill className="object-cover" />
+        <Image src={(course.image as Media)?.url || ""} alt={course.title} fill className="object-cover" />
       </div>
 
       <h1 className="text-3xl font-bold">{course.title}</h1>
@@ -115,9 +112,15 @@ const CoursePage = async ({ params }: CoursePageProps) => {
       </div>
 
       {participation ? (
-        <div className="w-72"><ParticipationButton participation={participation} /></div>
+        <div className="w-72">
+          <ParticipationButton participation={participation} />
+        </div>
       ) : (
-        <StartCourseButton courseId={course.id} />
+        <Link href={`/dashboard/course/${course.id}/buy`} className="w-72">
+          <button className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded">
+            Buy Course for ${course.price}
+          </button>
+        </Link>
       )}
     </div>
   )

@@ -12,8 +12,6 @@ interface ModuleProps {
 }
 
 export default function CourseModule({ module, participation, onCompleted }: ModuleProps) {
-  console.log('CourseModule', module, participation)
-
   switch (module.blockType) {
     case 'video':
       return <VideoModule participation={participation} module={module} onCompleted={onCompleted} />

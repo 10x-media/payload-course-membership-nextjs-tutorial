@@ -24,8 +24,6 @@ export default async function ParticipationButton({
 
   const progressPercent = Math.min((progress / courseLength) * 100, 100)
 
-  console.log('progressPercent', progressPercent)
-
   return (
     <Link
       href={`/dashboard/participation/${participation.id}`}
