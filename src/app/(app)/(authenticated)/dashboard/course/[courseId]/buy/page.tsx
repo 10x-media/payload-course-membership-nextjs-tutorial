@@ -4,9 +4,11 @@ import { HiArrowLeft } from 'react-icons/hi'
 import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Course, Media } from '@/payload-types'
 import { getUser } from '@/app/(app)/(authenticated)/_actions/getUser'
+import Checkout from './_components/Checkout'
+import { createPaymentIntent } from './actions'
 
 
 export default async function page({ params }: { params: { courseId: string } }) {
@@ -18,6 +20,10 @@ export default async function page({ params }: { params: { courseId: string } })
 
   // get the user
   const user = await getUser()
+
+  if(!user){
+    redirect("/login")
+  }
 
   try {
     const res: Course = await payload.findByID({
@@ -33,7 +39,9 @@ export default async function page({ params }: { params: { courseId: string } })
     return notFound()
   }
 
-  if (!course) {
+  const {clientSecret, participationId} = await createPaymentIntent(course, user);
+
+  if (!course || !clientSecret) {
     return notFound()
   }
 
@@ -68,7 +76,7 @@ export default async function page({ params }: { params: { courseId: string } })
         </div>
       </div>
       
-      {/* add checkout process */}
+      <Checkout course={course} clientSecret={clientSecret} participationId={participationId}></Checkout>
     </div>
   )
 }
