@@ -43,6 +43,12 @@ export const Courses: CollectionConfig = {
       required: true,
     },
     {
+      name: "price",
+      label: "Price",
+      type: "number",
+      required: true,
+},
+    {
       name: "curriculum",
       label: "Curriculum",
       type: "blocks",

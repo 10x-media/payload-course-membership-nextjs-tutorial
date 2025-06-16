@@ -45,6 +45,16 @@ export const Participation: CollectionConfig = {
       relationTo: "customers",
       required: true,
     },
+    		{     
+			name: "paymentIntent",
+      label: "Payment Intent Id",
+      type: "text"
+    },
+    {
+      name: "paid",
+      label: "paid",
+      type: "checkbox"
+    },
     {
       name: "course",
       label: "Course",
